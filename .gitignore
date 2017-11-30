@@ -1,0 +1,11 @@
+# Editor backup files
+*~
+.*.swp
+.*.swo
+
+# Prevent to accidentally add IDA SDK
+third_party/idasdk/*
+third_party/idasdk*.zip
+
+# Build artifacts
+build/*
