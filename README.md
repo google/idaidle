@@ -1,6 +1,6 @@
 # idaidle
 
-Copyright 2016,2017 Google Inc.
+Copyright 2016-2017 Google Inc.
 
 Disclaimer: This is not an official Google product (experimental or otherwise),
 it is just code that happens to be owned by Google.
@@ -23,7 +23,7 @@ using it.
 Dependencies:
   * IDA 6.9 or higher or IDA 7.0 or higher with their respective SDKs
     installed
-  * Linux, macOS: GCC/Clang with C++11 support
+  * Linux/macOS: GCC/Clang with C++11 support
   * Windows: Visual Studio 2015 Compiler or later
   * CMake 3.7 or higher
 
