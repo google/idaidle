@@ -76,14 +76,14 @@ cmake --build . --config=Release
 If all goes well, depending on your configuration, the following plugin files
 are now in the build directory:
 
-OS      | 64-bit build (IDA 7.0+) | 32-bit build (6.x or 7.x "old_x86")
-------- | ----------------------- | -----------------------------------
-Linux   | `idaidle.so`            | `idaidle.plx`
-        | `idaidle64.so`          | `idaidle.plx64`
-macOS   | `idaidle.dylib`         | `idaidle.pmc`
-        | `idaidle64.dylib`       | `idaidle.pmc64`
-Windows | `idaidle.dll`           | `idaidle.plw`
-        | `idaidle64.dll`         | `idaidle.p64`
+| OS      | 64-bit build (IDA 7.0+) | 32-bit build (6.x or 7.x "old_x86") |
+| ------- | ----------------------- | ----------------------------------- |
+| Linux   | `idaidle.so`            | `idaidle.plx`                       |
+|         | `idaidle64.so`          | `idaidle.plx64`                     |
+| macOS   | `idaidle.dylib`         | `idaidle.pmc`                       |
+|         | `idaidle64.dylib`       | `idaidle.pmc64`                     |
+| Windows | `idaidle.dll`           | `idaidle.plw`                       |
+|         | `idaidle64.dll`         | `idaidle.p64`                       |
 
 Note: A `64` in anywhere in any of the filenames denotes a 64-bit address
 aware plugin.
@@ -92,23 +92,23 @@ aware plugin.
 ## Installation
 
 To install system-wide, put the plugin binaries into the `plugins` folder
-in youre IDA Pro installation. Below are the default paths: 
+in your IDA Pro installation. Below are the default paths:
 
-OS      | Plugin path
-------- | -------------------------------------------
-Linux   | `/opt/ida-7.0/plugins`
-macOS   | `/Applications/IDA Pro 7.0/idabin/plugins`
-Windows | `%ProgramFiles(x86)%\IDA 7.0\plugins`
+| OS      | Plugin path                                 |
+| ------- | ------------------------------------------- |
+| Linux   | `/opt/ida-7.0/plugins`                      |
+| macOS   | `/Applications/IDA Pro 7.0/idabin/plugins`  |
+| Windows | `%ProgramFiles(x86)%\IDA 7.0\plugins`       |
 
 Replace `7.0` with your actual version number.
 
 To install just for the current user, copy the files into one of these
 directories instead:
 
-OS          | Plugin path
------------ | ------------------------------------
-Linux/macOS | `~/.idapro/plugins`
-Windows     | `%AppData%\Hex-Rays\IDA Pro\plugins`
+| OS          | Plugin path                          |
+| ----------- | ------------------------------------ |
+| Linux/macOS | `~/.idapro/plugins`                  |
+| Windows     | `%AppData%\Hex-Rays\IDA Pro\plugins` |
 
 
 ## Usage
@@ -123,7 +123,7 @@ work or databases the analyst did not want to save.
 There is no configuration file, but the following command-line options are
 available:
 
-Option                      | Description
---------------------------- | ----------------------------------------------
-`-OIdaIdleWarningSeconds:N` | Warn the user after _N_ seconds of inactivity 
-`-OIdaIdleTimeoutSeconds:N` | Create snapshot and close IDA afer _N_ seconds
+| Option                      | Description                                    |
+| --------------------------- | ---------------------------------------------- |
+| `-OIdaIdleWarningSeconds:N` | Warn the user after _N_ seconds of inactivity  |
+| `-OIdaIdleTimeoutSeconds:N` | Create snapshot and close IDA afer _N_ seconds |
