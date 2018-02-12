@@ -76,7 +76,8 @@ std::string HumanReadableTime(std::chrono::milliseconds msec) {
 void HelpIdle() {
   info(
       "This plugin displays a notification if this instance of IDA is idling "
-      "for more than %s. After %s, it will create a database snapshot and "
+      "for more than %s.\n"
+      "After %s, it will create a database snapshot and "
       "quit without saving.",
       HumanReadableTime(g_timer_idle_warning).c_str(),
       HumanReadableTime(g_timer_idle_timeout).c_str());
@@ -163,15 +164,24 @@ int idaapi OnUiNotification(void* /* user_data */, int /* notification_code */,
 }
 
 int idaapi PluginInit() {
+  const auto default_warning_seconds = g_timer_idle_warning.count();
   int warning_seconds = std::atoi(GetArgument("WarningSeconds").c_str());
-  int timeout_seconds = std::atoi(GetArgument("TimeoutSeconds").c_str());
+  if (warning_seconds == 0) {
+    warning_seconds = default_warning_seconds;
+  }
+  const auto default_timeout_seconds = g_timer_idle_timeout.count();
+  int timeout_seconds =  std::atoi(GetArgument("TimeoutSeconds").c_str());
+  if (timeout_seconds == 0) {
+    timeout_seconds = default_timeout_seconds;
+  }
+
   if (warning_seconds < timeout_seconds) {
-    if (warning_seconds > 0) {
+    if (warning_seconds != default_warning_seconds) {
       g_timer_idle_warning = std::chrono::seconds(warning_seconds);
       msg("IDA Idle: Warning interval set to %s via plugin option\n",
           HumanReadableTime(g_timer_idle_warning).c_str());
     }
-    if (timeout_seconds > 0) {
+    if (timeout_seconds != default_timeout_seconds) {
       g_timer_idle_timeout = std::chrono::seconds(timeout_seconds);
       msg("IDA Idle: Timeout interval set to %s via plugin option\n",
           HumanReadableTime(g_timer_idle_timeout).c_str());

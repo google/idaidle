@@ -127,3 +127,6 @@ available:
 | --------------------------- | ---------------------------------------------- |
 | `-OIdaIdleWarningSeconds:N` | Warn the user after _N_ seconds of inactivity  |
 | `-OIdaIdleTimeoutSeconds:N` | Create snapshot and close IDA afer _N_ seconds |
+
+Note: IDA only recognizes these command-line options if they come _before_ any
+filenames.
