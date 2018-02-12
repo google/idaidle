@@ -168,16 +168,16 @@ int idaapi PluginInit() {
   if (warning_seconds < timeout_seconds) {
     if (warning_seconds > 0) {
       g_timer_idle_warning = std::chrono::seconds(warning_seconds);
-      msg("idaidle: Warning interval set to %s via plugin option\n",
+      msg("IDA Idle: Warning interval set to %s via plugin option\n",
           HumanReadableTime(g_timer_idle_warning).c_str());
     }
     if (timeout_seconds > 0) {
       g_timer_idle_timeout = std::chrono::seconds(timeout_seconds);
-      msg("idaidle: Timeout interval set to %s via plugin option\n",
+      msg("IDA Idle: Timeout interval set to %s via plugin option\n",
           HumanReadableTime(g_timer_idle_timeout).c_str());
     }
   } else {
-    msg("idaidle: Timeout smaller or equal to warning interval, both "
+    msg("IDA Idle: Timeout smaller or equal to warning interval, both "
         "ignored\n");
   }
 
@@ -193,8 +193,11 @@ int idaapi PluginInit() {
   g_timer_handle =
       register_timer(std::chrono::milliseconds(kTimerInterval).count(),
                      &OnTimer, /*ud=*/nullptr);
-  hook_to_notification_point(HT_UI, OnUiNotification, /*user_data=*/nullptr);
-
+  if (!hook_to_notification_point(HT_UI, OnUiNotification,
+                                  /*user_data=*/nullptr)) {
+    msg("IDA Idle: Failed to register plugin notifications, skipping plugin");
+    return PLUGIN_SKIP;
+  }
   return PLUGIN_KEEP;
 }
 
