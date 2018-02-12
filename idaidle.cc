@@ -1,4 +1,4 @@
-// Copyright 2016,2017 Google Inc. All Rights Reserved.
+// Copyright 2016-2018 Google LLC. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -187,7 +187,7 @@ int idaapi PluginInit() {
   addon_info.name = "IDA Idle";
   addon_info.producer = "Google";
   addon_info.version = "0.4";
-  addon_info.freeform = "(c)2016,2017 Google Inc.";
+  addon_info.freeform = "(c)2016-2018 Google LLC";
   register_addon(&addon_info);
 
   g_timer_handle =

@@ -1,6 +1,6 @@
 # idaidle
 
-Copyright 2016-2017 Google Inc.
+Copyright 2016-2018 Google LLC
 
 Disclaimer: This is not an official Google product (experimental or otherwise),
 it is just code that happens to be owned by Google.
