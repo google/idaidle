@@ -63,7 +63,7 @@ cmake .. -G "Visual Studio 14 2015" -DIdaSdk_ROOT_DIR=<IDASDK> ^
 
 Once configured, start the build with:
 
-*Linux/macOS*"
+*Linux/macOS*:
 ```bash
 cmake --build .
 ```
