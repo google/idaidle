@@ -1,4 +1,4 @@
-# Copyright 2016-2018 Google LLC. All Rights Reserved.
+# Copyright 2016-2019 Google LLC. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,15 +16,6 @@ cmake_minimum_required(VERSION 3.7)
 project(idaidle CXX)
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
-
-option(BUILD_32BIT "Compile the plugin as a 32-bit binary" OFF)
-if(BUILD_32BIT)
-  set(IdaSdk_COMPILE_32BIT ON)
-  set(IdaSdk_LEGACY_FILE_EXTENSIONS ON)
-else()
-  set(_idaidle_ida64 IDA64)
-endif()
-
 find_package(IdaSdk REQUIRED)
 
 if(MSVC)
@@ -43,9 +34,8 @@ if(MSVC)
   endforeach()
 endif()
 
-add_ida_plugin(idaidle EA64 idaidle.cc)
-foreach(target idaidle${_plx} idaidle${_plx64})
-  set_property(TARGET ${target} PROPERTY CXX_STANDARD 11)
-  target_include_directories(${target} PRIVATE ${IdaSdk_INCLUDE_DIRS})
-  target_compile_definitions(${target} PRIVATE ${_idaidle_ida64})
-endforeach()
+add_ida_plugin(idaidle
+  idaidle.cc
+)
+set_ida_target_properties(idaidle PROPERTIES CXX_STANDARD 11)
+ida_target_include_directories(idaidle PRIVATE ${IdaSdk_INCLUDE_DIRS})

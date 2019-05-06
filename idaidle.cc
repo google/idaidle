@@ -1,4 +1,4 @@
-// Copyright 2016-2018 Google LLC. All Rights Reserved.
+// Copyright 2016-2019 Google LLC. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -94,9 +94,7 @@ void WarnIdle() {
 }
 
 void CreateSnapshotAndQuit() {
-#ifdef IDA64
   const auto* database_idb = get_path(PATH_TYPE_IDB);
-#endif
   if (strlen(database_idb) > 0) {
     msg("IDA Idle: Saving snapshot...\n");
     snapshot_t snapshot;
@@ -111,11 +109,7 @@ void CreateSnapshotAndQuit() {
     msg("IDA Idle: Saved snapshot to: %s\n", snapshot.filename);
 
     // Set the temp flag so that if IDA quits the unpacked files are deleted.
-#ifdef IDA64
     set_database_flag(DBFL_TEMP);
-#else
-    database_flags |= DBFL_TEMP;
-#endif
   }
 
   msg("IDA Idle: Closing IDA...\n");
@@ -148,14 +142,9 @@ int OnTimer(void* /* user_data */) {
   return std::chrono::milliseconds(kTimerInterval).count();
 }
 
-#ifdef IDA64
 ssize_t idaapi OnUiNotification(void* /* user_data */,
                                 int /* notification_code */,
                                 va_list /* args */) {
-#else
-int idaapi OnUiNotification(void* /* user_data */, int /* notification_code */,
-                            va_list /* args */) {
-#endif
   if (!g_ignore_activity) {
     // Every time there's UI activity, reset the idle time.
     g_last_activity = std::chrono::steady_clock::now();
@@ -196,8 +185,8 @@ int idaapi PluginInit() {
   addon_info.id = "com.google.idaidle";
   addon_info.name = "IDA Idle";
   addon_info.producer = "Google";
-  addon_info.version = "0.5";
-  addon_info.freeform = "(c)2016-2018 Google LLC";
+  addon_info.version = "0.6";
+  addon_info.freeform = "(c)2016-2019 Google LLC";
   register_addon(&addon_info);
 
   g_timer_handle =
@@ -211,15 +200,9 @@ int idaapi PluginInit() {
   return PLUGIN_KEEP;
 }
 
-#ifdef IDA64
 bool idaapi PluginRun(size_t /* arg */) {
-#else
-void idaapi PluginRun(int /* arg */) {
-#endif
   HelpIdle();
-#ifdef IDA64
   return true;
-#endif
 }
 
 void idaapi PluginTerminate() {

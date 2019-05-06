@@ -1,6 +1,6 @@
 # idaidle
 
-Copyright 2016-2018 Google LLC
+Copyright 2016-2019 Google LLC
 
 Disclaimer: This is not an official Google product (experimental or otherwise),
 it is just code that happens to be owned by Google.
@@ -21,8 +21,7 @@ using it.
 ## How to Build
 
 Dependencies:
-  * IDA 6.9 or higher or IDA 7.0 or higher with their respective SDKs
-    installed
+  * IDA 7.0 or higher with a matching SDK installed
   * Linux/macOS: GCC/Clang with C++11 support
   * Windows: Visual Studio 2015 Compiler or later
   * CMake 3.7 or higher
@@ -43,24 +42,6 @@ cd build
 cmake .. -G "Visual Studio 14 2015 Win64" -DIdaSdk_ROOT_DIR=<IDASDK>
 ```
 
-To configure for 32-bit IDA (IDA 6.95 or lower, or IDA 7.0 "old_x86"), use
-the IDA 6.95 SDK and the following commands instead:
-
-*Linux/macOS*:
-```bash
-mkdir -p build && cd build
-cmake .. -DIdaSdk_ROOT_DIR=<IDASDK> -DCMAKE_BUILD_TYPE=Release \
-  -DBUILD_32BIT=ON
-```
-
-*Windows*:
-```dos
-if not exist build mkdir build
-cd build
-cmake .. -G "Visual Studio 14 2015" -DIdaSdk_ROOT_DIR=<IDASDK> ^
-  -DBUILD_32BIT=ON
-```
-
 Once configured, start the build with:
 
 *Linux/macOS*:
@@ -76,14 +57,14 @@ cmake --build . --config=Release
 If all goes well, depending on your configuration, the following plugin files
 are now in the build directory:
 
-| OS      | 64-bit build (IDA 7.0+) | 32-bit build (6.x or 7.x "old_x86") |
-| ------- | ----------------------- | ----------------------------------- |
-| Linux   | `idaidle.so`            | `idaidle.plx`                       |
-|         | `idaidle64.so`          | `idaidle.plx64`                     |
-| macOS   | `idaidle.dylib`         | `idaidle.pmc`                       |
-|         | `idaidle64.dylib`       | `idaidle.pmc64`                     |
-| Windows | `idaidle.dll`           | `idaidle.plw`                       |
-|         | `idaidle64.dll`         | `idaidle.p64`                       |
+| OS      | Filename                |
+| ------- | ----------------------- |
+| Linux   | `idaidle.so`            |
+|         | `idaidle64.so`          |
+| macOS   | `idaidle.dylib`         |
+|         | `idaidle64.dylib`       |
+| Windows | `idaidle.dll`           |
+|         | `idaidle64.dll`         |
 
 Note: A `64` in anywhere in any of the filenames denotes a 64-bit address
 aware plugin.
