@@ -152,7 +152,7 @@ ssize_t idaapi OnUiNotification(void* /* user_data */,
   return 0;
 }
 
-int idaapi PluginInit() {
+decltype(PLUGIN_OK) idaapi PluginInit() {
   const auto default_warning_seconds = g_timer_idle_warning.count();
   int warning_seconds = std::atoi(GetArgument("WarningSeconds").c_str());
   if (warning_seconds == 0) {
@@ -185,7 +185,7 @@ int idaapi PluginInit() {
   addon_info.id = "com.google.idaidle";
   addon_info.name = "IDA Idle";
   addon_info.producer = "Google";
-  addon_info.version = "0.6";
+  addon_info.version = "0.7";
   addon_info.freeform = "(c)2016-2021 Google LLC";
   register_addon(&addon_info);
 

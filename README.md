@@ -2,6 +2,8 @@
 
 Copyright 2016-2021 Google LLC
 
+[![Linux Build Status](https://github.com/google/idaidle/workflows/linux-build/badge.svg)](https://github.com/google/idaidle/actions?query=workflow%3Alinux-build)
+
 Disclaimer: This is not an official Google product (experimental or otherwise),
 it is just code that happens to be owned by Google.
 
