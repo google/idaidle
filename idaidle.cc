@@ -1,4 +1,4 @@
-// Copyright 2016-2019 Google LLC. All Rights Reserved.
+// Copyright 2016-2021 Google LLC. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -152,7 +152,7 @@ ssize_t idaapi OnUiNotification(void* /* user_data */,
   return 0;
 }
 
-int idaapi PluginInit() {
+decltype(PLUGIN_OK) idaapi PluginInit() {
   const auto default_warning_seconds = g_timer_idle_warning.count();
   int warning_seconds = std::atoi(GetArgument("WarningSeconds").c_str());
   if (warning_seconds == 0) {
@@ -185,8 +185,8 @@ int idaapi PluginInit() {
   addon_info.id = "com.google.idaidle";
   addon_info.name = "IDA Idle";
   addon_info.producer = "Google";
-  addon_info.version = "0.6";
-  addon_info.freeform = "(c)2016-2019 Google LLC";
+  addon_info.version = "0.7";
+  addon_info.freeform = "(c)2016-2021 Google LLC";
   register_addon(&addon_info);
 
   g_timer_handle =
