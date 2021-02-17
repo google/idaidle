@@ -1,6 +1,6 @@
 # idaidle
 
-Copyright 2016-2019 Google LLC
+Copyright 2016-2021 Google LLC
 
 Disclaimer: This is not an official Google product (experimental or otherwise),
 it is just code that happens to be owned by Google.
@@ -39,17 +39,17 @@ cmake .. -DIdaSdk_ROOT_DIR=<IDASDK> -DCMAKE_BUILD_TYPE=Release
 ```dos
 if not exist build mkdir build
 cd build
-cmake .. -G "Visual Studio 14 2015 Win64" -DIdaSdk_ROOT_DIR=<IDASDK>
+cmake .. -DIdaSdk_ROOT_DIR=<IDASDK> -DCMAKE_BUILD_TYPE=Release
 ```
 
 Once configured, start the build with:
 
-*Linux/macOS*:
+*Linux*:
 ```bash
 cmake --build .
 ```
 
-*Windows*:
+*macOS/Windows*:
 ```dos
 cmake --build . --config=Release
 ```
@@ -66,8 +66,7 @@ are now in the build directory:
 | Windows | `idaidle.dll`           |
 |         | `idaidle64.dll`         |
 
-Note: A `64` in anywhere in any of the filenames denotes a 64-bit address
-aware plugin.
+Note: A `64` in any of the filenames denotes a 64-bit address aware plugin.
 
 
 ## Installation
@@ -77,9 +76,9 @@ in your IDA Pro installation. Below are the default paths:
 
 | OS      | Plugin path                                 |
 | ------- | ------------------------------------------- |
-| Linux   | `/opt/ida-7.0/plugins`                      |
-| macOS   | `/Applications/IDA Pro 7.0/idabin/plugins`  |
-| Windows | `%ProgramFiles(x86)%\IDA 7.0\plugins`       |
+| Linux   | `/opt/ida-7.5/plugins`                      |
+| macOS   | `/Applications/IDA Pro 7.5/idabin/plugins`  |
+| Windows | `%ProgramFiles(x86)%\IDA 7.5\plugins`       |
 
 Replace `7.0` with your actual version number.
 
