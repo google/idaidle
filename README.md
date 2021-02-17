@@ -2,7 +2,7 @@
 
 Copyright 2016-2021 Google LLC
 
-[![Linux Build Status](https://github.com/google/idaidle/workflows/linux-build/badge.svg)](https://github.com/google/idaidle/actions?query=workflow%3Alinux-build)
+[![Build Status](https://github.com/google/idaidle/workflows/build/badge.svg)](https://github.com/google/idaidle/actions?query=workflow%3Abuild)
 
 Disclaimer: This is not an official Google product (experimental or otherwise),
 it is just code that happens to be owned by Google.

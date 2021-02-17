@@ -1,4 +1,4 @@
-name: linux-build
+name: build
 
 on: [push, pull_request]
 
@@ -10,10 +10,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04]
+        os: [ubuntu-20.04, macos-10.15, windows-2019]
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
     - name: Install ninja-build tool
       uses: seanmiddleditch/gha-setup-ninja@v3
@@ -23,14 +24,17 @@ jobs:
         RUNNER_WORKSPACE: ${{ runner.workspace }}
         IDASDK_SECRET: ${{ secrets.IDASDK_SECRET }}
       working-directory: ${{ github.workspace }}
+      # Note: This uses the bash shell included with Git on Windows.
+      shell: bash
       run: |
         cmake -E make_directory "${RUNNER_WORKSPACE}/build"
         ./.github/scripts/decrypt_secret.sh
-        unzip -q "${RUNNER_WORKSPACE}/build/idasdk75.zip" \
-          -d "${RUNNER_WORKSPACE}/build/"
+        7z x "-o${RUNNER_WORKSPACE}/build/" \
+          "${RUNNER_WORKSPACE}/build/idasdk75.zip"
 
     - name: Configure CMake
       working-directory: ${{ runner.workspace }}/build
+      shell: bash
       run: |
         cmake "${GITHUB_WORKSPACE}" -G Ninja \
           "-DCMAKE_BUILD_TYPE=${BUILD_TYPE}" \
@@ -38,8 +42,11 @@ jobs:
 
     - name: Build
       working-directory: ${{ runner.workspace }}/build
+      shell: bash
       run: cmake --build . --config "${BUILD_TYPE}"
 
-    - name: Test
-      working-directory: ${{ runner.workspace }}/build
-      run: ctest --build-config "${BUILD_TYPE}" --output-on-failure
+    - name: Archive artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: idaidle-${{ matrix.os }}
+        path: ${{ runner.workspace }}/build/idaidle*.*
