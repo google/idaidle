@@ -185,8 +185,8 @@ decltype(PLUGIN_OK) idaapi PluginInit() {
   addon_info.id = "com.google.idaidle";
   addon_info.name = "IDA Idle";
   addon_info.producer = "Google";
-  addon_info.version = "0.7";
-  addon_info.freeform = "(c)2016-2021 Google LLC";
+  addon_info.version = "0.8";
+  addon_info.freeform = "(c)2016-2026 Google LLC";
   register_addon(&addon_info);
 
   g_timer_handle =
