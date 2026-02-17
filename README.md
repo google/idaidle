@@ -1,6 +1,6 @@
 # idaidle
 
-Copyright 2016-2021 Google LLC
+Copyright 2016-2026 Google LLC
 
 [![Build Status](https://github.com/google/idaidle/workflows/build/badge.svg)](https://github.com/google/idaidle/actions?query=workflow%3Abuild)
 
@@ -23,10 +23,10 @@ using it.
 ## How to Build
 
 Dependencies:
-  * IDA 7.0 or higher with a matching SDK installed
-  * Linux/macOS: GCC/Clang with C++11 support
-  * Windows: Visual Studio 2015 Compiler or later
-  * CMake 3.7 or higher
+  * IDA 8.5 or higher with a matching SDK installed
+  * Linux/macOS: GCC/Clang with C++17 support
+  * Windows: Visual Studio 2017 Compiler or later
+  * CMake 3.31 or higher
 
 First run CMake to configure the build, replacing `<IDASDK>` with the root
 path of your IDA SDK installation:
@@ -59,14 +59,11 @@ cmake --build . --config=Release
 If all goes well, depending on your configuration, the following plugin files
 are now in the build directory:
 
-| OS      | Filename                |
-| ------- | ----------------------- |
-| Linux   | `idaidle.so`            |
-|         | `idaidle64.so`          |
-| macOS   | `idaidle.dylib`         |
-|         | `idaidle64.dylib`       |
-| Windows | `idaidle.dll`           |
-|         | `idaidle64.dll`         |
+| OS      | Filename           |
+| ------- | ------------------ |
+| Linux   | `idaidle64.so`     |
+| macOS   | `idaidle64.dylib`  |
+| Windows | `idaidle64.dll`    |
 
 Note: A `64` in any of the filenames denotes a 64-bit address aware plugin.
 
@@ -76,13 +73,13 @@ Note: A `64` in any of the filenames denotes a 64-bit address aware plugin.
 To install system-wide, put the plugin binaries into the `plugins` folder
 in your IDA Pro installation. Below are the default paths:
 
-| OS      | Plugin path                                 |
-| ------- | ------------------------------------------- |
-| Linux   | `/opt/ida-7.5/plugins`                      |
-| macOS   | `/Applications/IDA Pro 7.5/idabin/plugins`  |
-| Windows | `%ProgramFiles(x86)%\IDA 7.5\plugins`       |
+| OS      | Plugin path                                         |
+| ------- | --------------------------------------------------- |
+| Linux   | `/opt/ida-9.0/plugins`                              |
+| macOS   | `/Applications/IDA Professional 9.0/idabin/plugins` |
+| Windows | `%ProgramFiles(x86)%\IDA 9.0\plugins`               |
 
-Replace `7.0` with your actual version number.
+Replace `9.0` with your actual version number.
 
 To install just for the current user, copy the files into one of these
 directories instead:

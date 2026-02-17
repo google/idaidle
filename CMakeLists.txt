@@ -1,4 +1,4 @@
-# Copyright 2016-2021 Google LLC. All Rights Reserved.
+# Copyright 2016-2026 Google LLC. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.31)
 project(idaidle CXX)
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
@@ -37,5 +37,5 @@ endif()
 add_ida_plugin(idaidle
   idaidle.cc
 )
-set_ida_target_properties(idaidle PROPERTIES CXX_STANDARD 11)
+set_ida_target_properties(idaidle PROPERTIES CXX_STANDARD 17)
 ida_target_include_directories(idaidle PRIVATE ${IdaSdk_INCLUDE_DIRS})
