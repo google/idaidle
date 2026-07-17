@@ -23,25 +23,24 @@ using it.
 ## How to Build
 
 Dependencies:
-  * IDA 8.5 or higher with a matching SDK installed
-  * Linux/macOS: GCC/Clang with C++17 support
+  * IDA 9.3 or higher with a matching SDK installed
+  * Linux/macOS: GCC/Clang with C++20 support
   * Windows: Visual Studio 2017 Compiler or later
   * CMake 3.31 or higher
 
-First run CMake to configure the build, replacing `<IDASDK>` with the root
-path of your IDA SDK installation:
+First run CMake to configure the build:
 
 *Linux/macOS*:
 ```bash
 mkdir -p build && cd build
-cmake .. -DIdaSdk_ROOT_DIR=<IDASDK> -DCMAKE_BUILD_TYPE=Release
+cmake .. -DCMAKE_BUILD_TYPE=Release
 ```
 
 *Windows*:
 ```dos
 if not exist build mkdir build
 cd build
-cmake .. -DIdaSdk_ROOT_DIR=<IDASDK> -DCMAKE_BUILD_TYPE=Release
+cmake .. -DCMAKE_BUILD_TYPE=Release
 ```
 
 Once configured, start the build with:
@@ -61,11 +60,9 @@ are now in the build directory:
 
 | OS      | Filename           |
 | ------- | ------------------ |
-| Linux   | `idaidle64.so`     |
-| macOS   | `idaidle64.dylib`  |
-| Windows | `idaidle64.dll`    |
-
-Note: A `64` in any of the filenames denotes a 64-bit address aware plugin.
+| Linux   | `idaidle.so`     |
+| macOS   | `idaidle.dylib`  |
+| Windows | `idaidle.dll`    |
 
 
 ## Installation
@@ -75,9 +72,9 @@ in your IDA Pro installation. Below are the default paths:
 
 | OS      | Plugin path                                         |
 | ------- | --------------------------------------------------- |
-| Linux   | `/opt/ida-9.0/plugins`                              |
-| macOS   | `/Applications/IDA Professional 9.0/idabin/plugins` |
-| Windows | `%ProgramFiles(x86)%\IDA 9.0\plugins`               |
+| Linux   | `/opt/ida-9.4/plugins`                              |
+| macOS   | `/Applications/IDA Professional 9.4/idabin/plugins` |
+| Windows | `%ProgramFiles(x86)%\IDA 9.4\plugins`               |
 
 Replace `9.0` with your actual version number.
 
