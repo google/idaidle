@@ -15,27 +15,28 @@
 cmake_minimum_required(VERSION 3.31)
 project(idaidle CXX)
 
-list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
-find_package(IdaSdk REQUIRED)
+set(CMAKE_CXX_STANDARD 20)
 
-if(MSVC)
-  # Use the static runtime
-  foreach(flag_var CMAKE_CXX_FLAGS
-                   CMAKE_CXX_FLAGS_DEBUG
-                   CMAKE_CXX_FLAGS_RELEASE
-                   CMAKE_CXX_FLAGS_MINSIZEREL
-                   CMAKE_CXX_FLAGS_RELWITHDEBINFO)
-    if(${flag_var} MATCHES "/MD")
-      string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
-    endif()
-    if(${flag_var} MATCHES "/MDd")
-      string(REGEX REPLACE "/MDd" "/MTd" ${flag_var} "${${flag_var}}")
-    endif()
-  endforeach()
-endif()
-
-add_ida_plugin(idaidle
-  idaidle.cc
+include(FetchContent)
+FetchContent_Declare(idasdk
+  URL https://github.com/HexRaysSA/ida-sdk/archive/refs/tags/v9.4.0-release.zip
+  URL_HASH SHA256=b2ab453d52b3ebc22ca5da5ba2d77216335980cad8b002f47276347ab387c629
 )
-set_ida_target_properties(idaidle PROPERTIES CXX_STANDARD 17)
-ida_target_include_directories(idaidle PRIVATE ${IdaSdk_INCLUDE_DIRS})
+FetchContent_MakeAvailable(idasdk)
+include(${idasdk_SOURCE_DIR}/src/cmake/idasdk_init.cmake)
+
+find_package(idasdk REQUIRED)
+
+# Force static runtime on Windows
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
+ida_add_plugin(idaidle
+  SOURCES idaidle.cc
+)
+target_compile_definitions(idaidle
+  PRIVATE USE_DANGEROUS_FUNCTIONS=1
+)
+set_target_properties(idaidle PROPERTIES
+  LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+)
