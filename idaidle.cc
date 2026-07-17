@@ -17,15 +17,18 @@
 
 #include <chrono>  // NOLINT
 #include <cstdio>
-#include <cstdlib>
+#include <cstring>
 #include <string>
+#include <type_traits>  // IWYU pragma: keep
 
+// clang-format off
 #include <pro.h>        // NOLINT
 #include <expr.hpp>     // NOLINT
 #include <ida.hpp>      // NOLINT
 #include <idp.hpp>      // NOLINT
 #include <kernwin.hpp>  // NOLINT
 #include <loader.hpp>   // NOLINT
+// clang-format on
 
 namespace security {
 namespace {
@@ -152,14 +155,27 @@ ssize_t idaapi OnUiNotification(void* /* user_data */,
   return 0;
 }
 
-decltype(PLUGIN_OK) idaapi PluginInit() {
+struct IdaIdlePlugin : public plugmod_t {
+  ~IdaIdlePlugin() override {
+    unregister_timer(g_timer_handle);
+    unhook_from_notification_point(HT_UI, OnUiNotification,
+                                   /*user_data=*/nullptr);
+  }
+
+  bool idaapi run(size_t /* arg */) override {
+    HelpIdle();
+    return true;
+  }
+};
+
+plugmod_t* idaapi PluginInit() {
   const auto default_warning_seconds = g_timer_idle_warning.count();
   int warning_seconds = std::atoi(GetArgument("WarningSeconds").c_str());
   if (warning_seconds == 0) {
     warning_seconds = default_warning_seconds;
   }
   const auto default_timeout_seconds = g_timer_idle_timeout.count();
-  int timeout_seconds =  std::atoi(GetArgument("TimeoutSeconds").c_str());
+  int timeout_seconds = std::atoi(GetArgument("TimeoutSeconds").c_str());
   if (timeout_seconds == 0) {
     timeout_seconds = default_timeout_seconds;
   }
@@ -185,7 +201,7 @@ decltype(PLUGIN_OK) idaapi PluginInit() {
   addon_info.id = "com.google.idaidle";
   addon_info.name = "IDA Idle";
   addon_info.producer = "Google";
-  addon_info.version = "0.8";
+  addon_info.version = "0.9";
   addon_info.freeform = "(c)2016-2026 Google LLC";
   register_addon(&addon_info);
 
@@ -197,33 +213,25 @@ decltype(PLUGIN_OK) idaapi PluginInit() {
     msg("IDA Idle: Failed to register plugin notifications, skipping plugin");
     return PLUGIN_SKIP;
   }
-  return PLUGIN_KEEP;
+
+  return new IdaIdlePlugin();
 }
 
-bool idaapi PluginRun(size_t /* arg */) {
-  HelpIdle();
-  return true;
-}
-
-void idaapi PluginTerminate() {
-  unregister_timer(g_timer_handle);
-  unhook_from_notification_point(HT_UI, OnUiNotification,
-                                 /*user_data=*/nullptr);
-}
-
-} // namespace
-} // namespace security
+}  // namespace
+}  // namespace security
 
 extern "C" {
-plugin_t PLUGIN{
-    IDP_INTERFACE_VERSION,
-    PLUGIN_FIX,                 // Plugin flags
-    security::PluginInit,       // Initialize
-    security::PluginTerminate,  // Terminate
-    security::PluginRun,        // Invoke plugin
-    security::kPluginComment,   // Statusline text
-    nullptr,                    // Multi-line help about the plugin, unused
-    security::kPluginMenuName,  // Preferred short name of the plugin
-    security::kPluginHotkey     // Preferred hotkey to run the plugin
+
+plugin_t PLUGIN = {
+    .version = IDP_INTERFACE_VERSION,
+    .flags = PLUGIN_FIX | PLUGIN_MULTI,
+    .init = security::PluginInit,  // Initialize
+    .term = nullptr,
+    .run = nullptr,
+    .comment = security::kPluginComment,  // Statusline text
+    .help = nullptr,  // Multi-line help about the plugin, unused
+    .wanted_name = security::kPluginMenuName,  // Preferred short name
+    .wanted_hotkey = security::kPluginHotkey,  // Preferred hotkey
 };
-}
+
+}  // extern "C"
