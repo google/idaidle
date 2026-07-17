@@ -13,6 +13,11 @@
 # limitations under the License.
 
 cmake_minimum_required(VERSION 3.31)
+
+if(APPLE)
+  set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
+endif()
+
 project(idaidle CXX)
 
 set(CMAKE_CXX_STANDARD 20)
